@@ -4,47 +4,72 @@ import Image from "next/image";
 
 export default function CategoriesPage() {
   return (
-    <div className="section-shell">
-      {/* Header */}
-      <div className="section-header">
-        <p className="text-sm font-medium text-blue-600 dark:text-cyan-400 mb-2">Legal Topics</p>
-        <h1 className="section-title">
-          All <span className="gradient-text">Categories</span>
-        </h1>
-        <p className="section-lead">
-          Browse legal topics to find guidance, templates, and submission steps.
-        </p>
-      </div>
+    <div className="bg-slate-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {CATEGORIES.map((c) => (
-          <div key={c.slug} id={c.slug} className="group overflow-hidden card-surface hover:-translate-y-1 transition-all duration-300">
-            {c.image && (
-              <div className="relative h-32 w-full overflow-hidden">
-                <Image src={c.image} alt={c.name} fill className="object-cover transition-transform duration-500 group-hover:scale-110" sizes="(max-width: 768px) 100vw, 33vw" />
-                <div className="absolute inset-0 bg-gradient-to-t from-blue-600/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-            )}
-            <div className="p-5">
-              <div className="flex items-center justify-between">
-                <h2 className="font-semibold text-base">{c.name}</h2>
-                <span className="text-xs text-slate-400 dark:text-slate-500">#{c.slug}</span>
-              </div>
-              <p className="mt-2 text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                {c.createHint || "Guidance, templates, and where to submit."}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                <Link href={`/documents/${c.slug}`} className="btn-primary px-3.5 py-1.5 text-xs font-medium">
-                  View Details
-                </Link>
-                <Link href={`/documents/new?category=${encodeURIComponent(c.slug)}`} className="btn-outline px-3.5 py-1.5 text-xs font-medium">
-                  Create Document
-                </Link>
+        {/* ─── Header ────────────────────────────────────────── */}
+        <div className="mb-10 text-center max-w-2xl mx-auto">
+          <span className="text-xs font-bold text-[#e65100] uppercase tracking-widest">
+            Official Legal Directory
+          </span>
+          <h1 className="text-3xl sm:text-4xl font-black text-[#1a237e] mt-1 tracking-tight">
+            Browse All Legal Categories
+          </h1>
+          <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+            Select a legal topic below to access ready-to-print document templates, court submission guides, and Bar-verified advocate consultations.
+          </p>
+        </div>
+
+        {/* ─── Categories Grid ────────────────────────────────── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {CATEGORIES.map((c) => (
+            <div
+              key={c.slug}
+              id={c.slug}
+              className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden flex flex-col hover:border-[#1a237e] hover:shadow-md transition-all duration-200"
+            >
+              {c.image && (
+                <div className="relative h-36 w-full bg-slate-100 border-b border-slate-100">
+                  <Image
+                    src={c.image}
+                    alt={c.name}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 25vw"
+                  />
+                  <div className="absolute top-2.5 right-2.5 bg-[#1a237e] text-white text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider">
+                    #{c.slug}
+                  </div>
+                </div>
+              )}
+
+              <div className="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <h2 className="font-bold text-base text-[#1a237e] mb-1.5">{c.name}</h2>
+                  <p className="text-xs text-slate-500 leading-relaxed mb-4">
+                    {c.createHint || "Guidance, ready-to-print templates, and submission steps under Indian laws."}
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 pt-2 border-t border-slate-100">
+                  <Link
+                    href={`/categories/${c.slug}`}
+                    className="flex-1 text-center bg-[#1a237e] hover:bg-[#0d1757] text-white text-xs font-bold py-2 rounded-lg transition-colors"
+                  >
+                    View Details
+                  </Link>
+                  <Link
+                    href={`/documents/new?category=${encodeURIComponent(c.slug)}`}
+                    className="flex-1 text-center border border-[#1a237e] text-[#1a237e] hover:bg-indigo-50 text-xs font-bold py-2 rounded-lg transition-colors"
+                  >
+                    Draft Doc
+                  </Link>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
       </div>
     </div>
   );

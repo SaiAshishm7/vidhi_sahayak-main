@@ -139,3 +139,5 @@ MongoDB Atlas
 1. Create a free cluster at [cloud.mongodb.com](https://cloud.mongodb.com)
 2. Choose AWS as cloud provider, same region as backend
 3. Copy connection string into `MONGODB_URI`
+
+

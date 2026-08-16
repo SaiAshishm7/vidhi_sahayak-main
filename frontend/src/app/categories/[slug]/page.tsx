@@ -13,76 +13,126 @@ export default async function CategoryDetailPage({ params }: Props) {
 
   if (!category) {
     return (
-      <div className="mx-auto max-w-6xl px-4 py-10">
-        <h1 className="text-2xl font-semibold">Category not found</h1>
-        <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">The category you are looking for does not exist.</p>
-        <div className="mt-4">
-          <Link href="/categories" className="text-sm underline underline-offset-4">Back to categories</Link>
+      <div className="min-h-screen bg-slate-50 py-16 px-4">
+        <div className="max-w-md mx-auto bg-white rounded-2xl border border-slate-200 p-8 text-center shadow-sm">
+          <h1 className="text-xl font-bold text-[#1a237e] mb-2">Category Not Found</h1>
+          <p className="text-xs text-slate-500 mb-6">The requested legal topic does not exist in our directory.</p>
+          <Link
+            href="/categories"
+            className="inline-block bg-[#1a237e] text-white text-xs font-bold px-5 py-2.5 rounded-lg hover:bg-[#0d1757] transition-colors"
+          >
+            ← Back to Legal Categories
+          </Link>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
-      <h1 className="text-2xl font-semibold">{category.name}</h1>
-      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        Guidance, templates, verification, and submission steps for {category.name}.
-      </p>
+    <div className="bg-slate-50 min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-5xl mx-auto">
 
-      <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
-        <div className="rounded-lg border bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-          <h2 className="font-medium">Guidance</h2>
-          <div className="mt-2 grid grid-cols-1 gap-4 text-sm text-zinc-600 dark:text-zinc-400">
+        {/* ─── Header ────────────────────────────────────────── */}
+        <div className="mb-8 bg-white rounded-2xl border border-slate-200 p-6 sm:p-8 shadow-sm">
+          <div className="flex flex-wrap items-center justify-between gap-4">
             <div>
-              <p className="font-medium text-zinc-900 dark:text-zinc-100">Where to get document</p>
-              <ul className="list-inside list-disc">
-                {(g?.whereToGet ?? ["To be provided"]).map((x, i) => (<li key={i}>{x}</li>))}
-              </ul>
+              <span className="text-xs font-bold text-[#e65100] uppercase tracking-widest">
+                Category Guidance
+              </span>
+              <h1 className="text-2xl sm:text-3xl font-black text-[#1a237e] mt-1">{category.name}</h1>
+              <p className="text-xs text-slate-500 mt-1">
+                Official guidance, documents required, and submission procedure for {category.name}.
+              </p>
             </div>
-            <div>
-              <p className="font-medium text-zinc-900 dark:text-zinc-100">Type required</p>
-              <ul className="list-inside list-disc">
-                {(g?.typeRequired ?? ["To be provided"]).map((x, i) => (<li key={i}>{x}</li>))}
-              </ul>
-            </div>
-            <div>
-              <p className="font-medium text-zinc-900 dark:text-zinc-100">Whom to contact to verify</p>
-              <ul className="list-inside list-disc">
-                {(g?.verificationContacts ?? ["To be provided"]).map((x, i) => (<li key={i}>{x}</li>))}
-              </ul>
-            </div>
-            <div>
-              <p className="font-medium text-zinc-900 dark:text-zinc-100">Where to submit</p>
-              <ul className="list-inside list-disc">
-                {(g?.submissionOffices ?? ["To be provided"]).map((x, i) => (<li key={i}>{x}</li>))}
-              </ul>
-            </div>
-            <div>
-              <p className="font-medium text-zinc-900 dark:text-zinc-100">Print guidance</p>
-              <ul className="list-inside list-disc">
-                {(g?.printGuidance ?? ["To be provided"]).map((x, i) => (<li key={i}>{x}</li>))}
-              </ul>
-            </div>
-            <div>
-              <p className="font-medium text-zinc-900 dark:text-zinc-100">Steps</p>
-              <ol className="list-inside list-decimal">
-                {(g?.steps ?? ["To be provided"]).map((x, i) => (<li key={i}>{x}</li>))}
-              </ol>
+            <div className="flex items-center gap-2 shrink-0">
+              <Link
+                href={`/documents/new?category=${encodeURIComponent(slug)}`}
+                className="bg-[#1a237e] hover:bg-[#0d1757] text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-colors"
+              >
+                Draft Document →
+              </Link>
+              <Link
+                href="/consultation"
+                className="border border-[#e65100] text-[#e65100] hover:bg-orange-50 text-xs font-bold px-4 py-2.5 rounded-lg transition-colors"
+              >
+                Book Lawyer
+              </Link>
             </div>
           </div>
         </div>
-        <div className="rounded-lg border bg-white p-4 shadow-sm dark:border-zinc-800 dark:bg-zinc-950">
-          <h2 className="font-medium">Actions</h2>
-          <div className="mt-2 flex gap-2">
-            <Link href="/documents/new" className="rounded-md border px-3 py-1.5 text-sm hover:bg-zinc-50 dark:border-zinc-800 dark:hover:bg-zinc-900">
-              Create document
-            </Link>
-            <Link href="/consultation" className="rounded-md bg-black px-3 py-1.5 text-sm text-white hover:bg-zinc-800 dark:bg-white dark:text-black dark:hover:bg-zinc-200">
-              Book lawyer
-            </Link>
+
+        {/* ─── Guidance Cards ────────────────────────────────── */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          {/* Where to Get & Documents Needed */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+            <div>
+              <h2 className="text-sm font-bold text-[#1a237e] uppercase tracking-wider mb-2 border-l-2 border-[#1a237e] pl-2">
+                Where to Obtain Document
+              </h2>
+              <ul className="space-y-1.5 text-xs text-slate-700 list-disc list-inside">
+                {(g?.whereToGet ?? ["Local Sub-Registrar or Advocate office"]).map((x, i) => (
+                  <li key={i}>{x}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-sm font-bold text-[#1a237e] uppercase tracking-wider mb-2 border-l-2 border-[#1a237e] pl-2">
+                Required Types &amp; KYC
+              </h2>
+              <ul className="space-y-1.5 text-xs text-slate-700 list-disc list-inside">
+                {(g?.typeRequired ?? ["Aadhaar, PAN card, and party proofs"]).map((x, i) => (
+                  <li key={i}>{x}</li>
+                ))}
+              </ul>
+            </div>
           </div>
+
+          {/* Submission & Verification */}
+          <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm space-y-6">
+            <div>
+              <h2 className="text-sm font-bold text-[#1a237e] uppercase tracking-wider mb-2 border-l-2 border-[#e65100] pl-2">
+                Submission &amp; Registration Offices
+              </h2>
+              <ul className="space-y-1.5 text-xs text-slate-700 list-disc list-inside">
+                {(g?.submissionOffices ?? ["Sub-Registrar office or online portal"]).map((x, i) => (
+                  <li key={i}>{x}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div>
+              <h2 className="text-sm font-bold text-[#1a237e] uppercase tracking-wider mb-2 border-l-2 border-[#e65100] pl-2">
+                Print &amp; Stamp Duty Guidance
+              </h2>
+              <ul className="space-y-1.5 text-xs text-slate-700 list-disc list-inside">
+                {(g?.printGuidance ?? ["Non-judicial stamp paper as per state rules"]).map((x, i) => (
+                  <li key={i}>{x}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          {/* Execution Steps (Full Width) */}
+          <div className="md:col-span-2 bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
+            <h2 className="text-sm font-bold text-[#1a237e] uppercase tracking-wider mb-3 border-l-2 border-[#1a237e] pl-2">
+              Step-by-Step Procedure
+            </h2>
+            <ol className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-slate-700">
+              {(g?.steps ?? ["Draft document", "Estimate stamp duty", "Execute before witnesses", "Register"]).map((x, i) => (
+                <li key={i} className="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-start gap-2.5">
+                  <span className="w-5 h-5 rounded-full bg-[#1a237e] text-white flex items-center justify-center text-[10px] font-bold shrink-0">
+                    {i + 1}
+                  </span>
+                  <span>{x}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+
         </div>
+
       </div>
     </div>
   );
